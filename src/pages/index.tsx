@@ -42,42 +42,50 @@ export default function Home() {
             <Spinner />
           </div>
         )}
-        <h1 className="mx-auto text-2xl font-bold">Ranking</h1>
+        <h1 className="mx-auto text-2xl font-bold text-zinc-800">Ranking</h1>
         {players.length > 0 && (
           <table className="relative">
             <thead>
               <tr>
-                <th className="border border-zinc-50 px-3 py-1">Rank</th>
-                <th className="border border-zinc-50 px-3 py-1">Player</th>
-                <th className="border border-zinc-50 px-3 py-1">Vitórias</th>
-                <th className="border border-zinc-50 px-3 py-1">Derrotas</th>
-                <th className="border border-zinc-50 px-3 py-1">
+                <th className="border border-zinc-400 px-3 py-1">Rank</th>
+                <th className="border border-zinc-400 px-3 py-1">Player</th>
+                <th className="border border-zinc-400 px-3 py-1">Vitórias</th>
+                <th className="border border-zinc-400 px-3 py-1">Derrotas</th>
+                <th className="border border-zinc-400 px-3 py-1">
                   Partidas Jogadas
                 </th>
-                <th className="border border-zinc-50 px-3 py-1">Winrate</th>
+                <th className="border border-zinc-400 px-3 py-1">Winrate %</th>
               </tr>
             </thead>
             <tbody className="">
               {players.map((player, index) => {
                 return (
                   <tr key={player.id} className="">
-                    <td className="border-b border-zinc-50 py-2 text-center first-of-type:border-l last-of-type:border-r">
+                    <td
+                      className={`border border-zinc-400 py-2 text-center
+                        ${index === 0 && 'font-bold text-yellow-500 underline'}
+                        ${index === 1 && 'font-bold text-cyan-700 underline'}
+                        ${index === 2 && 'font-bold text-amber-700 underline'}
+                        `}
+                    >
                       {index + 1}
                     </td>
-                    <td className="border-b border-zinc-50 py-2 text-center first-of-type:border-l last-of-type:border-r">
+                    <td className={`border border-zinc-400 py-2 text-center`}>
                       {player.name}
                     </td>
-                    <td className="border-b border-zinc-50 py-2 text-center first-of-type:border-l last-of-type:border-r">
+                    <td className={`border border-zinc-400 py-2 text-center`}>
                       {player.matches_won}
                     </td>
-                    <td className="border-b border-zinc-50 py-2 text-center first-of-type:border-l last-of-type:border-r">
+                    <td className={`border border-zinc-400 py-2 text-center`}>
                       {player.matches_lost}
                     </td>
-                    <td className="border-b border-zinc-50 py-2 text-center first-of-type:border-l last-of-type:border-r">
+                    <td className={`border border-zinc-400 py-2 text-center`}>
                       {player.matches_won + player.matches_lost}
                     </td>
-                    <td className="border-b border-zinc-50 py-2 text-center first-of-type:border-l last-of-type:border-r">
-                      {player.winrate}
+                    <td className={`border border-zinc-400 py-2 text-center`}>
+                      {player.matches_won + player.matches_lost > 0
+                        ? player.winrate
+                        : 'Sem partidas jogadas'}
                     </td>
                   </tr>
                 )

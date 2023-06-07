@@ -44,32 +44,34 @@ export default function Matches() {
             <Spinner />
           </div>
         )}
-        <h1 className="mx-auto text-2xl font-bold">Partidas</h1>
+        <h1 className="mx-auto text-2xl font-bold text-zinc-800">Partidas</h1>
         {matches.length > 0 && (
           <table className="relative">
             <thead>
               <tr>
-                <th className="border border-zinc-50 px-3 py-1">
+                <th className="border border-zinc-400 px-3 py-1">
                   Data da partida
                 </th>
-                <th className="border border-zinc-50 px-3 py-1">Vitorioso</th>
-                <th className="border border-zinc-50 px-3 py-1">Derrotado</th>
+                <th className="border border-zinc-400 px-3 py-1">Vitorioso</th>
+                <th className="border border-zinc-400 px-3 py-1">Derrotado</th>
               </tr>
             </thead>
             <tbody className="">
               {matches.map((match) => {
                 return (
                   <tr key={match.id} className="">
-                    <td className="border-b border-zinc-50 py-2 text-center first-of-type:border-l last-of-type:border-r">
+                    <td className="border border-zinc-400 py-2 text-center">
                       {match.match_date
                         ? format(new Date(match.match_date), 'dd/MM/yyyy')
                         : 'Sem data'}
                     </td>
-                    <td className="border-b border-zinc-50 py-2 text-center first-of-type:border-l last-of-type:border-r">
-                      {match.winner_name} de {match.winner_champion}
+                    <td className="border border-zinc-400 py-2 text-center">
+                      <strong>{match.winner_name}</strong> de{' '}
+                      <strong>{match.winner_champion}</strong>
                     </td>
-                    <td className="border-b border-zinc-50 py-2 text-center first-of-type:border-l last-of-type:border-r">
-                      {match.loser_name} de {match.loser_champion}
+                    <td className="border border-zinc-400 py-2 text-center">
+                      <strong>{match.loser_name}</strong> de{' '}
+                      <strong>{match.loser_champion}</strong>
                     </td>
                   </tr>
                 )

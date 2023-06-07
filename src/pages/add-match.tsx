@@ -96,16 +96,18 @@ export default function AddMatche() {
         </div>
       )}
       <div className="mx-auto flex w-full max-w-4xl flex-1 flex-col gap-4 p-4">
-        <h1 className="mx-auto text-2xl font-bold">Adicionar partida</h1>
+        <h1 className="mx-auto text-2xl font-bold text-zinc-800">
+          Adicionar partida
+        </h1>
         <form
-          className="flex flex-col gap-4 rounded bg-zinc-700 p-4"
+          className="mx-auto flex w-full max-w-xl flex-col gap-4 rounded bg-slate-600 p-4"
           onSubmit={handleSubmit(handleAddMatch)}
         >
           <label className="flex flex-col gap-2">
-            <span className="font-bold">
+            <span className="font-bold text-zinc-50">
               Vencedor <strong className="text-red-500">*</strong>
             </span>
-            <div className="flex w-full flex-1 gap-4">
+            <div className="flex w-full flex-1 flex-wrap gap-4">
               <select
                 className="flex-1 rounded px-3 py-2 text-zinc-600"
                 {...register('winnerPlayerId', {
@@ -148,10 +150,10 @@ export default function AddMatche() {
           </label>
 
           <label className="flex flex-col gap-2">
-            <span className="font-bold">
+            <span className="font-bold text-zinc-50">
               Derrotado <strong className="text-red-500">*</strong>
             </span>
-            <div className="flex w-full flex-1 gap-4">
+            <div className="flex w-full flex-1 flex-wrap gap-4">
               <select
                 className="flex-1 rounded px-3 py-2 text-zinc-600"
                 {...register('loserPlayerId', {
@@ -193,7 +195,7 @@ export default function AddMatche() {
             )}
           </label>
           <label className="flex flex-col gap-2">
-            <span className="font-bold">
+            <span className="font-bold text-zinc-50">
               Data <strong className="text-red-500">*</strong>
             </span>
             <input
@@ -210,8 +212,9 @@ export default function AddMatche() {
             )}
           </label>
           <button
-            className="mt-4 flex w-full items-center justify-center gap-4 rounded bg-blue-500 py-4 transition-all hover:bg-blue-600 disabled:opacity-50"
+            className="mt-4 flex w-full items-center justify-center gap-4 rounded bg-blue-500 py-4 font-medium text-zinc-50 transition-all hover:bg-blue-600 disabled:opacity-50"
             disabled={loading || isSubmitting}
+            type="submit"
           >
             Enviar para análise
           </button>
