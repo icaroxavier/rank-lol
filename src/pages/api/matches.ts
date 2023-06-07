@@ -5,7 +5,7 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse,
 ) {
-  if (req.method !== 'GET') {
+  if (req.method !== 'GET' && req.method !== 'POST') {
     return res.status(405).json({ error: 'Method not allowed, please use GET' })
   }
 
@@ -22,6 +22,8 @@ export default async function handler(
       players loser ON loser.id = m.loser_player_id
     LEFT JOIN
       players winner ON winner.id = m.winner_player_id
+    WHERE
+      m.approved = 1
     ORDER BY
       CASE WHEN STR_TO_DATE(m.match_date, '%d/%m/%Y') IS NULL THEN 1 ELSE 0 END,
       STR_TO_DATE(m.match_date, '%d/%m/%Y') DESC;
