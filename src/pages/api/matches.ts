@@ -11,6 +11,37 @@ export default async function handler(
 
   const db = await getDb()
 
+  if (req.method === 'POST') {
+    const { body } = req
+    const {
+      matchDate,
+      winnerPlayerId,
+      loserPlayerId,
+      winnerChampion,
+      loserChampion,
+    } = body
+
+    if (
+      !matchDate ||
+      !winnerPlayerId ||
+      !loserPlayerId ||
+      !winnerChampion ||
+      !loserChampion
+    ) {
+      return res.status(400).json({ error: 'Missing required fields' })
+    }
+
+    const [data] = await db.execute(
+      `
+      INSERT INTO matches (match_date, winner_player_id, loser_player_id, winner_champion, loser_champion, is_enabled)
+      VALUES (?, ?, ?, ?, ?, TRUE)
+    `,
+      [matchDate, winnerPlayerId, loserPlayerId, winnerChampion, loserChampion],
+    )
+
+    return res.status(201).json(data)
+  }
+
   const [data] = await db.execute(`
     SELECT
       m.*,
@@ -23,10 +54,9 @@ export default async function handler(
     LEFT JOIN
       players winner ON winner.id = m.winner_player_id
     WHERE
-      m.approved = 1
+      m.is_enabled is TRUE
     ORDER BY
-      CASE WHEN STR_TO_DATE(m.match_date, '%d/%m/%Y') IS NULL THEN 1 ELSE 0 END,
-      STR_TO_DATE(m.match_date, '%d/%m/%Y') DESC;
+      m.match_date DESC;
 
   `)
 

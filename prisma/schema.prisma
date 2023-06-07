@@ -1,0 +1,27 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("PRISMA_DATABASE_URL")
+}
+
+model Player {
+  id   Int    @id @default(autoincrement())
+  name String @db.VarChar(255)
+
+  @@map("players")
+}
+
+model Match {
+  id             Int       @id @default(autoincrement())
+  loserPlayerId  Int?      @map("loser_player_id")
+  winnerPlayerId Int?      @map("winner_player_id")
+  loserChampion  String?   @map("loser_champion") @db.VarChar(255)
+  winnerChampion String?   @map("winner_champion") @db.VarChar(255)
+  matchDate      DateTime? @map("match_date") @db.Date
+  isEnabled      Boolean?  @default(false) @map("is_enabled")
+
+  @@map("matches")
+}

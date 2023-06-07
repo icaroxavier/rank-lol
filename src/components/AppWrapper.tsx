@@ -15,6 +15,9 @@ export default function AppWrapper({ children }: AppWrapperProps) {
         <Link href="/matches" className="text-xl font-medium hover:underline">
           Partidas
         </Link>
+        <Link href="/add-match" className="text-xl font-medium hover:underline">
+          Adicionar Partida
+        </Link>
       </nav>
       {children}
     </main>

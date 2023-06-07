@@ -1,14 +1,16 @@
 import AppWrapper from '@/components/AppWrapper'
+import { Spinner } from '@/components/Spinner'
 import { api } from '@/lib/axios'
+import { format } from 'date-fns'
 import Head from 'next/head'
 import { useEffect, useState } from 'react'
 import { toast } from 'react-toastify'
 
-interface Match {
+export interface Match {
   id: number
   loser_champion: string
   loser_name: string
-  match_date: string
+  match_date: Date
   winner_champion: string
   winner_name: string
 }
@@ -38,8 +40,8 @@ export default function Matches() {
       </Head>
       <div className="mx-auto flex w-full max-w-4xl flex-1 flex-col gap-4 p-4">
         {loading && (
-          <div className="h-ful fixed bottom-0 left-0 right-0 top-0 z-10 flex w-full bg-zinc-400 opacity-70">
-            <div className="m-auto">Loading...</div>
+          <div className="fixed bottom-0 left-0 right-0 top-0 z-10 flex h-full w-full items-center justify-center bg-zinc-400 opacity-70">
+            <Spinner />
           </div>
         )}
         <h1 className="mx-auto text-2xl font-bold">Partidas</h1>
@@ -59,7 +61,9 @@ export default function Matches() {
                 return (
                   <tr key={match.id} className="">
                     <td className="border-b border-zinc-50 py-2 text-center first-of-type:border-l last-of-type:border-r">
-                      {match.match_date || 'Sem data'}
+                      {match.match_date
+                        ? format(new Date(match.match_date), 'dd/MM/yyyy')
+                        : 'Sem data'}
                     </td>
                     <td className="border-b border-zinc-50 py-2 text-center first-of-type:border-l last-of-type:border-r">
                       {match.winner_name} de {match.winner_champion}

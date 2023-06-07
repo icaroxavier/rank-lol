@@ -21,7 +21,7 @@ export default async function handler(
     FROM
       players p
     LEFT JOIN
-      matches m ON (m.loser_player_id = p.id OR m.winner_player_id = p.id) AND m.approved = 1
+      matches m ON (m.loser_player_id = p.id OR m.winner_player_id = p.id) AND m.is_enabled is TRUE
     GROUP BY
       p.id, p.name
     ORDER BY
