@@ -1,9 +1,10 @@
 import AppWrapper from '@/components/AppWrapper'
 import { api } from '@/lib/axios'
-import { useEffect, useState } from 'react'
 import { toast } from 'react-toastify'
 import Head from 'next/head'
 import { Spinner } from '@/components/Spinner'
+import { AxiosError } from 'axios'
+import { useQuery } from 'react-query'
 
 export interface Player {
   id: number
@@ -14,22 +15,21 @@ export interface Player {
 }
 
 export default function Home() {
-  const [players, setPlayers] = useState<Player[]>([])
-  const [loading, setLoading] = useState(false)
-
-  useEffect(() => {
-    setLoading(true)
-    api
-      .get('/players')
-      .then((response) => {
-        setPlayers(response.data)
-        console.log(response.data)
-      })
-      .catch((error) => {
-        toast.error(error.response.data.message)
-      })
-      .finally(() => setLoading(false))
-  }, [])
+  const { data: players, isLoading } = useQuery<Player[]>(
+    'players',
+    async () => {
+      try {
+        const response = await api.get('/players')
+        return response.data
+      } catch (error) {
+        if (error instanceof AxiosError) {
+          toast.error(error?.response?.data.message)
+        } else {
+          toast.error('Erro inesperado ao buscar os jogadores')
+        }
+      }
+    },
+  )
 
   return (
     <AppWrapper>
@@ -37,13 +37,13 @@ export default function Home() {
         <title>Ranking | League of Legends</title>
       </Head>
       <div className="mx-auto flex w-full max-w-4xl flex-1 flex-col gap-4 p-4">
-        {loading && (
+        {isLoading && (
           <div className="fixed bottom-0 left-0 right-0 top-0 z-10 flex h-full w-full items-center justify-center bg-zinc-400 opacity-70">
             <Spinner />
           </div>
         )}
         <h1 className="mx-auto text-2xl font-bold text-zinc-800">Ranking</h1>
-        {players.length > 0 && (
+        {!!players && players.length > 0 && (
           <table className="relative">
             <thead>
               <tr>
