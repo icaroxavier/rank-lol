@@ -8,7 +8,7 @@ interface AppWrapperProps {
 export default function AppWrapper({ children }: AppWrapperProps) {
   return (
     <main className="flex min-h-screen w-full flex-col bg-white">
-      <nav className="flex h-24 w-full items-center gap-4 bg-zinc-900 px-4 ">
+      <nav className="flex h-16 w-full items-center justify-around gap-4 bg-zinc-900 px-4 sm:justify-start sm:px-8 ">
         <Link
           href="/"
           className="text-xl font-medium text-zinc-50 hover:underline"

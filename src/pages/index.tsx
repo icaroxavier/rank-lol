@@ -36,7 +36,7 @@ export default function Home() {
       <Head>
         <title>Ranking | League of Legends</title>
       </Head>
-      <div className="mx-auto flex w-full max-w-4xl flex-1 flex-col gap-4 p-4">
+      <div className="mx-auto flex w-full max-w-4xl flex-1 flex-col gap-4 overflow-x-auto p-4">
         {isLoading && (
           <div className="fixed bottom-0 left-0 right-0 top-0 z-10 flex h-full w-full items-center justify-center bg-zinc-400 opacity-70">
             <Spinner />
@@ -44,7 +44,7 @@ export default function Home() {
         )}
         <h1 className="mx-auto text-2xl font-bold text-zinc-800">Ranking</h1>
         {!!players && players.length > 0 && (
-          <table className="relative">
+          <table className="relative w-full">
             <thead>
               <tr>
                 <th className="border border-zinc-400 px-3 py-1">Rank</th>
