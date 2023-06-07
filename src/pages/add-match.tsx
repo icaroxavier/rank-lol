@@ -13,9 +13,9 @@ import { format } from 'date-fns'
 
 const addMatchSchema = z
   .object({
-    winnerPlayerId: z.number().positive('Selecione um vencedor'),
+    winnerPlayerId: z.number().min(1, 'Selecione um vencedor'),
     winnerChampion: z.string().min(1, 'Selecione o campeão do vencedor'),
-    loserPlayerId: z.number().positive('Selecione um derrotado'),
+    loserPlayerId: z.number().min(1, 'Selecione um derrotado'),
     loserChampion: z.string().min(1, 'Selecione o campeão do derrotado'),
     matchDate: z.date().transform((date) => format(date, 'yyyy-MM-dd')),
   })
@@ -42,6 +42,12 @@ export default function AddMatche() {
     formState: { isSubmitting, errors },
   } = useForm<AddMatchFormData>({
     resolver: zodResolver(addMatchSchema),
+    defaultValues: {
+      winnerPlayerId: 0,
+      winnerChampion: '',
+      loserPlayerId: 0,
+      loserChampion: '',
+    },
   })
 
   async function getPlayers() {
@@ -106,7 +112,7 @@ export default function AddMatche() {
                   valueAsNumber: true,
                 })}
               >
-                <option value="0">Selecione o vencedor</option>
+                <option value={0}>Selecione o vencedor</option>
                 {players.map((player) => {
                   return (
                     <option key={player.id} value={player.id}>
@@ -119,7 +125,7 @@ export default function AddMatche() {
                 className="flex-1 rounded px-3 py-2 text-zinc-600"
                 {...register('winnerChampion')}
               >
-                <option value="">Selecione o campeão</option>
+                <option value={''}>Selecione o campeão</option>
                 {champions.map((champion) => {
                   return (
                     <option key={champion} value={champion}>
@@ -152,7 +158,7 @@ export default function AddMatche() {
                   valueAsNumber: true,
                 })}
               >
-                <option value="">Selecione o derrotado</option>
+                <option value={0}>Selecione o derrotado</option>
                 {players.map((player) => {
                   return (
                     <option key={player.id} value={player.id}>
