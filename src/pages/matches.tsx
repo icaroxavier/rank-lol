@@ -1,27 +1,28 @@
 import AppWrapper from '@/components/AppWrapper'
 import { api } from '@/lib/axios'
+import Head from 'next/head'
 import { useEffect, useState } from 'react'
 import { toast } from 'react-toastify'
-import Head from 'next/head'
 
-interface Player {
+interface Match {
   id: number
-  name: string
-  matches_won: number
-  matches_lost: number
-  winrate: string
+  loser_champion: string
+  loser_name: string
+  match_date: string
+  winner_champion: string
+  winner_name: string
 }
 
-export default function Home() {
-  const [players, setPlayers] = useState<Player[]>([])
+export default function Matches() {
+  const [matches, setMatches] = useState<Match[]>([])
   const [loading, setLoading] = useState(false)
 
   useEffect(() => {
     setLoading(true)
     api
-      .get('/players')
+      .get('/matches')
       .then((response) => {
-        setPlayers(response.data)
+        setMatches(response.data)
         console.log(response.data)
       })
       .catch((error) => {
@@ -33,7 +34,7 @@ export default function Home() {
   return (
     <AppWrapper>
       <Head>
-        <title>Ranking | League of Legends</title>
+        <title>Partidas | League of Legends</title>
       </Head>
       <div className="mx-auto flex w-full max-w-4xl flex-1 flex-col gap-4 p-4">
         {loading && (
@@ -41,36 +42,30 @@ export default function Home() {
             <div className="m-auto">Loading...</div>
           </div>
         )}
-        <h1 className="mx-auto text-2xl font-bold">Ranking</h1>
-        {players.length > 0 && (
+        <h1 className="mx-auto text-2xl font-bold">Partidas</h1>
+        {matches.length > 0 && (
           <table className="relative">
             <thead>
               <tr>
-                <th className="border border-zinc-50 px-3 py-1">Rank</th>
-                <th className="border border-zinc-50 px-3 py-1">Player</th>
-                <th className="border border-zinc-50 px-3 py-1">Vitórias</th>
-                <th className="border border-zinc-50 px-3 py-1">Derrotas</th>
-                <th className="border border-zinc-50 px-3 py-1">Winrate</th>
+                <th className="border border-zinc-50 px-3 py-1">
+                  Data da partida
+                </th>
+                <th className="border border-zinc-50 px-3 py-1">Vitorioso</th>
+                <th className="border border-zinc-50 px-3 py-1">Derrotado</th>
               </tr>
             </thead>
             <tbody className="">
-              {players.map((player, index) => {
+              {matches.map((match) => {
                 return (
-                  <tr key={player.id} className="">
+                  <tr key={match.id} className="">
                     <td className="border-b border-zinc-50 py-2 text-center first-of-type:border-l last-of-type:border-r">
-                      {index + 1}
+                      {match.match_date || 'Sem data'}
                     </td>
                     <td className="border-b border-zinc-50 py-2 text-center first-of-type:border-l last-of-type:border-r">
-                      {player.name}
+                      {match.winner_name} de {match.winner_champion}
                     </td>
                     <td className="border-b border-zinc-50 py-2 text-center first-of-type:border-l last-of-type:border-r">
-                      {player.matches_won}
-                    </td>
-                    <td className="border-b border-zinc-50 py-2 text-center first-of-type:border-l last-of-type:border-r">
-                      {player.matches_lost}
-                    </td>
-                    <td className="border-b border-zinc-50 py-2 text-center first-of-type:border-l last-of-type:border-r">
-                      {player.winrate}
+                      {match.loser_name} de {match.loser_champion}
                     </td>
                   </tr>
                 )

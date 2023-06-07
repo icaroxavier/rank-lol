@@ -1,0 +1,4 @@
+{
+  "pluginsSearchDirs": ["./node_modules/prettier-plugin-tailwindcss"],
+  "plugins": ["prettier-plugin-tailwindcss"]
+}
