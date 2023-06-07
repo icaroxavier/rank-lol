@@ -57,6 +57,7 @@ export default async function handler(
       m.is_enabled is TRUE
     ORDER BY
       m.match_date DESC;
+      m.created_at DESC;
 
   `)
 
