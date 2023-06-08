@@ -224,7 +224,7 @@ export default function AddMatche() {
                 />
               </svg>
             )}
-            Enviar para análise
+            Cadastrar partida
           </button>
         </form>
       </div>
