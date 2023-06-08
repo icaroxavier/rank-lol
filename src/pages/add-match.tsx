@@ -8,7 +8,6 @@ import { useForm } from 'react-hook-form'
 import { z } from 'zod'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Spinner } from '@/components/Spinner'
-import { format } from 'date-fns'
 import { useQuery } from 'react-query'
 
 const addMatchSchema = z
@@ -17,7 +16,6 @@ const addMatchSchema = z
     winnerChampion: z.string().min(1, 'Selecione o campeão do vencedor'),
     loserPlayerId: z.number().min(1, 'Selecione um derrotado'),
     loserChampion: z.string().min(1, 'Selecione o campeão do derrotado'),
-    matchDate: z.date().transform((date) => format(date, 'yyyy-MM-dd')),
   })
   .refine(
     (data) => {
@@ -199,23 +197,6 @@ export default function AddMatche() {
             {errors.loserChampion && (
               <span className="text-sm text-red-500">
                 {errors.loserChampion.message}
-              </span>
-            )}
-          </label>
-          <label className="flex flex-col gap-2">
-            <span className="font-bold text-zinc-50">
-              Data <strong className="text-red-500">*</strong>
-            </span>
-            <input
-              type="date"
-              className="rounded px-3 py-2 text-zinc-600"
-              {...register('matchDate', {
-                valueAsDate: true,
-              })}
-            />
-            {errors.matchDate && (
-              <span className="text-sm text-red-500">
-                {errors.matchDate.message}
               </span>
             )}
           </label>

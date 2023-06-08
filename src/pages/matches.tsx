@@ -11,7 +11,7 @@ export interface Match {
   id: number
   loser_champion: string
   loser_name: string
-  match_date: Date
+  created_at: Date
   winner_champion: string
   winner_name: string
 }
@@ -61,9 +61,10 @@ export default function Matches() {
                 return (
                   <tr key={match.id} className="">
                     <td className="border border-zinc-400 py-2 text-center">
-                      {match.match_date
-                        ? format(new Date(match.match_date), 'dd/MM/yyyy')
-                        : 'Sem data'}
+                      {format(
+                        new Date(match.created_at),
+                        "dd/MM/yyyy 'às' HH:mm",
+                      )}
                     </td>
                     <td className="border border-zinc-400 py-2 text-center">
                       <strong>{match.winner_name}</strong> de{' '}

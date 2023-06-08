@@ -17,15 +17,13 @@ export default async function handler(
       p.name AS name,
       COUNT(CASE WHEN m.winner_player_id = p.id THEN 1 ELSE NULL END) AS matches_won,
       COUNT(CASE WHEN m.loser_player_id = p.id THEN 1 ELSE NULL END) AS matches_lost,
-      CONCAT(FORMAT((COUNT(CASE WHEN m.winner_player_id = p.id THEN 1 ELSE NULL END) / COUNT(*) * 100), 0), '%') AS winrate
+      FORMAT((COUNT(CASE WHEN m.winner_player_id = p.id THEN 1 ELSE NULL END) / COUNT(*) * 100), 0) AS winrate
     FROM
       players p
     LEFT JOIN
       matches m ON (m.loser_player_id = p.id OR m.winner_player_id = p.id) AND m.is_enabled is TRUE
     GROUP BY
       p.id, p.name
-    ORDER BY
-      winrate DESC;
     `,
   )
 

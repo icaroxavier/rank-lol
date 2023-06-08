@@ -11,7 +11,8 @@ export interface Player {
   name: string
   matches_won: number
   matches_lost: number
-  winrate: string
+  totalMatches: number
+  winrate: number
 }
 
 export default function Home() {
@@ -20,7 +21,32 @@ export default function Home() {
     async () => {
       try {
         const response = await api.get('/players')
-        return response.data
+        const data = response.data.map((player: Player) => {
+          return {
+            ...player,
+            winrate: Number(player.winrate),
+            totalMatches: player.matches_won + player.matches_lost,
+          }
+        })
+        return data.sort((a: Player, b: Player) => {
+          if (a.winrate < b.winrate) {
+            return 1
+          } else if (a.winrate > b.winrate) {
+            return -1
+          } else if (
+            a.winrate === b.winrate &&
+            a.totalMatches < b.totalMatches
+          ) {
+            return 1
+          } else if (
+            a.winrate === b.winrate &&
+            a.totalMatches > b.totalMatches
+          ) {
+            return -1
+          } else {
+            return 0
+          }
+        })
       } catch (error) {
         if (error instanceof AxiosError) {
           toast.error(error?.response?.data.message)
@@ -30,6 +56,8 @@ export default function Home() {
       }
     },
   )
+
+  console.log('players', players)
 
   return (
     <AppWrapper>
@@ -80,11 +108,11 @@ export default function Home() {
                       {player.matches_lost}
                     </td>
                     <td className={`border border-zinc-400 py-2 text-center`}>
-                      {player.matches_won + player.matches_lost}
+                      {player.totalMatches}
                     </td>
                     <td className={`border border-zinc-400 py-2 text-center`}>
-                      {player.matches_won + player.matches_lost > 0
-                        ? player.winrate
+                      {player.totalMatches > 0
+                        ? player.winrate + '%'
                         : 'Sem partidas jogadas'}
                     </td>
                   </tr>
