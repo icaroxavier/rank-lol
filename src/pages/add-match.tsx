@@ -80,9 +80,19 @@ export default function AddMatche() {
   })
 
   async function handleAddMatch(data: AddMatchFormData) {
-    await api.post('/matches', data)
-    reset()
-    toast.success('Partida adicionada com sucesso')
+    try {
+      await api.post('/matches', data)
+      reset()
+      toast.success('Partida adicionada com sucesso')
+    } catch (error) {
+      if (error instanceof AxiosError) {
+        toast.error(
+          `Erro código ${error?.response?.status} ao adicionar a partida`,
+        )
+      } else {
+        toast.error('Erro inesperado ao adicionar a partida')
+      }
+    }
   }
 
   return (

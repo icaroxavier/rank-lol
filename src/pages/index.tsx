@@ -57,8 +57,6 @@ export default function Home() {
     },
   )
 
-  console.log('players', players)
-
   return (
     <AppWrapper>
       <Head>
